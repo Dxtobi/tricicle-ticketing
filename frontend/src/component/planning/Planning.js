@@ -43,21 +43,21 @@ const Planning = (props) => {
             <div> 
             <label htmlFor="exampleFormControlSelect1">From</label>
             <select className="form-control" id="exampleFormControlSelect1" onClick={e=>handleFrom(e,"from")}>
-                <option>Bhubaneswar</option>
-                <option>Balasore</option>
-                <option>Bhadrak</option>
-                <option>Cuttack</option>
-                <option>Talcher</option>
+                <option>SMALL GATE</option>
+                <option>BIG GATE</option>
+                <option>SAAS</option>
+                <option>NCC</option>
+                <option>COMPUTER SCIENCE</option>
             </select>
             </div>
             <div>
             <label htmlFor="exampleFormControlSelect1">To</label>
             <select className="form-control"  id="exampleFormControlSelect1" onClick={e=>handleFrom(e,"to")}>
-                <option>Bhubaneswar</option>
-                <option>Balasore</option>
-                <option>Bhadrak</option>
-                <option>Cuttack</option>
-                <option>Talcher</option>
+                <option>SMALL GATE</option>
+                <option>BIG GATE</option>
+                <option>SAAS</option>
+                <option>NCC</option>
+                <option>COMPUTER SCIENCE</option>
             </select>
             </div>
             <div>

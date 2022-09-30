@@ -2,7 +2,7 @@ import React,{useState} from 'react';
 import './SignUp.css';
 import signUp from '../../api/api';
 
-const SignUp = () => {
+const SignUp = ({signup,setSignup}) => {
     const[details,setDetails]=useState({
         name:'',
         email:'',
@@ -69,11 +69,6 @@ const SignUp = () => {
             return(setPhNumber("Mobile No is Required"))
         }
         if(value){
-            let regExp=/^([+][9][1]|[9][1]|[0]){0,1}([7-9]{1})([0-9]{9})$/
-            if(!(regExp.test(value))){
-                    return(setPhNumber("Invalid Mobile no"))
-            }
-            else{
                 const value=e.target.value
                 setDetails(prevState=>({
                     ...prevState,
@@ -81,8 +76,6 @@ const SignUp = () => {
                 }))
                 console.log(details.phNumber)
                 return(setPhNumber(""))
-                
-            }
         }
     }
 
@@ -117,38 +110,7 @@ const SignUp = () => {
 
     //DateOfBirth validation
 
-    const handleDate=(e)=>{
-        e.preventDefault()
-        let value=e.target.value
-        if(!value){
-            return(setDob("DOB Required"))
-        }
-        else{
-            if(value){
-                let regex=/^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
-                if(!(regex.test(value))){
-                    return(setDob("Not a valid date"))
-                }
-            }
-            setDetails(prevState=>({
-                ...prevState,
-                dateOfBirth:value
-            }))
-            
-                return(setDob(""))
-        }
- 
-    }
-
-    //Handle Gender
-
-   const handleGender=(e)=>{
-            const {value}=e.target
-            setDetails(prevState=>({
-                ...prevState,
-                gender:value
-            }))
-    }
+    
 
     //Handle Submit
     
@@ -160,60 +122,62 @@ const SignUp = () => {
                 email:details.email,
                 phNumber:details.phNumber,
                 password:details.password,
-                dateOfBirth:details.dateOfBirth,
-                gender: details.gender,
+               // dateOfBirth:details.dateOfBirth,
+               // gender: details.gender,
             })
-            if(response.status===200){
-                setDetails(prevState=>({
-                    ...prevState,
+            if (response.status === 200) {
+                window.location.reload()
+                setDetails({
                     name:'',
                     email:'',
                     phNumber:'',
                     password:'',
                     dateOfBirth:'',
                     gender:'',
-                }))
+                })
                 setResponse(response.data.message)
+                setSignup(!signup)
                 console.log(response)
             }
-            
         }
         catch(err){
-            console.log(err)
+            console.log('-----', err)
         }
     }
-        
+
     return (
-        <div className="signup">
+        <div className='format'>
+              <div className="signin">
              <form onSubmit={e=>handleSubmit(e)}>
                 <div className="top">
+                <br/>
                     <h4>Dont have an Account, Register!!</h4>
-                    <input type="text" placeholder="Name" onBlur={e=>handleName(e)} />
-                    <div style={{color: "red"}}>{name}</div> 
-                    <input type="email" placeholder="Email"   onBlur={e=>handleEmail(e)} />
+                    <br/>
+                    <input type="text" className='my-input' placeholder="Name" onBlur={e => handleName(e)} />
+                    <div style={{color: "red"}}>{name}</div>
+                    <br/>
+                    <input type="email" className='my-input' placeholder="Email" onBlur={e => handleEmail(e)} />
                     <div style={{color: "red"}}>{data}</div>
-                    <input type="tel" placeholder="Mobile No"  onBlur={e=>handlePh(e)} />
+                    <br/>
+                    <input type="tel" className='my-input' placeholder="Mobile No" onBlur={e => handlePh(e)} />
                     <div style={{color: "red"}}>{phNumber}</div>
-                    <input type="password" placeholder="Password" onBlur={e=>handlePswd(e)} />
-                    <div style={{color: "red"}}>{pswd}</div>
+                    <br/>
+                    <input type="password" className='my-input' placeholder="Password" onBlur={e => handlePswd(e)} />
+                    <div style={{ color: "red" }}>{pswd}</div>
+                    <br/>
+                        <button type="submit" className='my-input' onClick={(e) => {
+                            setSignup(!signup)
+                            handleSubmit(e)
+                        }}>REGISTER</button>
                 </div>
-                 <div className="dob">
-                    <label htmlFor="dob"><h5>Date of Birth</h5></label><br></br>
-                    <input type="text" 
-                     placeholder="YYYY-MM-DD" name="dob"  onBlur={e=>handleDate(e)}/>
-                    <div style={{color: "red"}}>{dob}</div>
-                 </div>
-                 <div className="check">
-                    <input type="radio"  name="gender" value={"male"} onClick={e=>handleGender(e)}/>
-                    <label htmlFor="male"><h5>Male</h5></label>&nbsp;&nbsp;&nbsp;
-                    <input type="radio"  name="gender" value={"female"} onClick={e=>handleGender(e)}/>
-                    <label htmlFor="female"><h5>Female</h5></label> 
-                 </div>
-                
-                 <button type="submit"  className="btn btn-primary">Register</button>
+               
+                <div>OR</div>
+               
+                 <button    className='my-input'>Login</button>
              <div style={{color:"cyan"}}><h4>{response}</h4></div>
              </form>
         </div>
+      </div>
     );
 };
 

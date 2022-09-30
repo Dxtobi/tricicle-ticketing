@@ -10,14 +10,41 @@
 .nav-land button{
     margin-left:15px;
 }
-.landing{
-    position:relative;
-    top:100px;
-    left:15%;
-    width:70%;
-    border:2px solid cyan;
-    border-radius:4px;
-    backdrop-filter: blur(5px);
+.landing {
+    width: 80%;
+    padding: 10px;
+    margin: 50px auto;
+    border-radius: 4px;
+}
+.back-btn{
+        text-align: center;
+        margin: 20px;
+    }
+
+.divider {
+    margin: 28px auto;
+}
+.form-control_ {
+    width: 100%;
+    padding: 11px;
+    margin: 2px 0px;
+    border-radius: 50px;
+    outline: none;
+}
+.form-control_btn {
+    margin: 20px 0px;
+    padding: 20px;
+    border: none;
+    border-radius: 50px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    color:white;
+    outline: none;
+    background-color: #007bff;
+    box-shadow: 0px 0px 30px -10px black;
 }
 .landing ul{
     margin:10px;
@@ -34,7 +61,21 @@
     font-size: 19px;
     font-weight: bolder;
 }
-
+.linkticket {
+    padding: 10px 40px;
+    background: #007bff;
+    color: white;
+    border-radius: 50px;
+}
+.error-div {
+    text-align: center;
+    padding: 10px;
+    background: #c12626;
+    color: white;
+    margin: 17px 0px;
+    border-radius: 50px;
+    box-shadow: 0px 8px 20px -5px #00000087;
+}
 /*.welcome{
     margin-top: 100px;
     text-align: center;

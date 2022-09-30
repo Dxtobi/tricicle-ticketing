@@ -6,19 +6,20 @@ const bcrypt=require('bcrypt')
 process.env.SECRET_KEY='secret'
 module.exports=function(router){
         router.post('/register',function(req,res){
-            let dateObj=new Date(req.body.dateOfBirth);
-            let month = dateObj.getUTCMonth() + 1;
-            let day = dateObj.getUTCDate();
-            let year = dateObj.getUTCFullYear();
-            var dateOfBirt = day+ "-" + month + "-" + year;
-            console.log(dateOfBirt)
+          //  let dateObj=new Date(req.body.dateOfBirth);
+           // let month = dateObj.getUTCMonth() + 1;
+           //// let day = dateObj.getUTCDate();
+           // let year = dateObj.getUTCFullYear();
+           // var dateOfBirt = day+ "-" + month + "-" + year;
+           // console.log(dateOfBirt)
+            console.log(req.body)
             const userData={
                 name:req.body.name,
                 email:req.body.email,
                 phNumber:req.body.phNumber,
                 password:req.body.password,
-                dateOfBirth:dateOfBirt,
-                gender:req.body.gender,
+               // dateOfBirth:dateOfBirt,
+               // gender:req.body.gender,
             }
             customerInfo.findOne({email:req.body.email},(err,user)=>{
                 if(err){res.json({status:false,message:err})}
@@ -32,7 +33,8 @@ module.exports=function(router){
                             })
                         })
                     }
-                    else{
+                    else {
+                        console.log('false')
                         res.json({status:false,message:"Customer already exists"})
                     }
 
@@ -40,8 +42,10 @@ module.exports=function(router){
             })
         })
         router.post('/login',(req,res) =>{
-            customerInfo.findOne({email:req.body.email},async (err,user)=>{
-                if(err){
+            customerInfo.findOne({ email: req.body.email }, async (err, user) => {
+                console.log(req.body)
+                if (err) {
+                    console.log('-----', err)
                     res.json({status:false,message:err})
                 }else{
                     if(user){
@@ -53,14 +57,15 @@ module.exports=function(router){
                                     name:user.name,
                                     email:user.email,
                                     phNumber:user.phNumber,
-                                    dateOfBirth:user.dateOfBirth,
-                                    gender:user.gender,
+                                  //  dateOfBirth:user.dateOfBirth,
+                                  //  gender:user.gender,
                                 }
                                 let token=jwt.sign(userLoad,process.env.SECRET_KEY,{expiresIn:1440})
                                 res.send(token)
                             }
-                            else{
-                                res.json({status:false,message:"Customer not found"})
+                            else {
+                                console.log('not match')
+                                res.json({status:false, message:"Customer not found"})
                             }
                         }
                         catch(err){
@@ -73,7 +78,9 @@ module.exports=function(router){
                     }
                 })
             })
-        router.get("/profile",(req,res)=>{
+    router.get("/profile", (req, res) => {
+            
+        
             const profile=jwt.verify(req.headers['authorization'],process.env.SECRET_KEY)
             customerInfo.findOne({_id:profile._id},(err,user)=>{
                 if(err){

@@ -1,14 +1,22 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import signIn from '../../api/api'
 import './SignIn.css';
 import SignUp from '../SignUp/SignUp';
 
-const SignIn = ({history}) => {
+const SignIn = ({ history }) => {
+    const token=sessionStorage.getItem("token")
+    useEffect(() => {
+      if (token) {
+        window.location.replace('/landing')
+      }
+    }, [token])
+    
     const [details,setDetails]=useState({
         email:"",
         passowrd:'',
     })
-    const [data,setData]=useState('')
+    const [data, setData] = useState('')
+    const [signup,setSignup]=useState(false)
     const [pswd,setPswd]=useState('')
     const [error,setError]=useState('')
     
@@ -77,7 +85,8 @@ const SignIn = ({history}) => {
                     email:details.email,
                     password:details.password
                 })
-                if(response.data.status===false){
+                if (response.data.status === false) {
+                    console.log(response.data)
                     setError("Incorrect Email or Password")
                 }else{
                     console.log(response)
@@ -90,26 +99,37 @@ const SignIn = ({history}) => {
     catch(err){
         console.log(err)
     }
-}
-        
+    }
+
+    if (signup) {
+        return <SignUp setSignup={setSignup} signup={ signup} />
+    }
     return (
         <div className="format">
-             <div className="signin">
+            <div className="signin">
+                <br/>
              <h4>Sign-In</h4>
             <form onSubmit={e=>handleSubmit(e)}>
                 <div>
-                    <input type="email" placeholder="E-mail" id="email" name="email" onBlur={e=>handleEmail(e)} /><br/>
-                     <div style={{color: "red"}}>{data}</div>
+                    <input className='my-input' type="email" placeholder="E-mail"  name="email" onBlur={e=>handleEmail(e)} /><br/>
+                    <div style={{color: "red"}}>{data}</div>
                 </div>
                 <div>
-                    <input type="password" id="password" placeholder="Password" name="password" onBlur={e=>handlePswd(e)} />
+                    <input className='my-input' type="password" placeholder="Password" name="password" onBlur={e=>handlePswd(e)} />
                     <div style={{color: "red"}}>{pswd}</div>
-                </div>
-                <button type="submit"  className="btn btn-primary">Sign-In</button>
-                <span>{error}</span>     
+                    </div>
+
+                    <br/>
+                    <button type="submit" className="my-input">Sign-In</button>
+                    <br />
+                    <div>OR</div>
+                    <br/>
+                    <button className='my-input' onClick={()=>setSignup(!signup)}> GO TO REGISTER</button>
+                    <br/>
+                <span>{error}</span>
             </form>
         </div>
-        <SignUp/>
+       
         </div>
 
     );
